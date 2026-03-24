@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Copy Trading Horizontal Scroll</title>
+    <title>Top Traders - Copy Trading</title>
     <style>
         :root {
             --bg-dark: #1e2329;
@@ -11,7 +11,6 @@
             --text-main: #eaecef;
             --text-muted: #848e9c;
             --green: #0ecb81;
-            --red: #f6465d;
             --gold: #f0b90b;
             --border-radius: 12px;
         }
@@ -19,253 +18,146 @@
         body {
             background-color: var(--bg-dark);
             color: var(--text-main);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 50px 0;
+            padding: 40px 20px;
         }
 
-        /* The Scroll Container */
-        .scroll-wrapper {
+        h2 { margin-left: 20px; font-weight: 600; }
+
+        /* Scrollable Container */
+        .scroll-container {
             display: flex;
             overflow-x: auto;
             gap: 16px;
             padding: 20px;
-            width: 95%;
-            max-width: 1200px;
-            scrollbar-width: thin; /* Firefox */
-            scrollbar-color: var(--card-bg) transparent;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* Webkit Scrollbar Styling */
-        .scroll-wrapper::-webkit-scrollbar {
-            height: 6px;
-        }
-        .scroll-wrapper::-webkit-scrollbar-thumb {
-            background: #474d57;
-            border-radius: 10px;
-        }
+        .scroll-container::-webkit-scrollbar { height: 6px; }
+        .scroll-container::-webkit-scrollbar-thumb { background: #474d57; border-radius: 10px; }
 
         .card {
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
-            min-width: 340px; /* Ensures cards don't shrink */
+            min-width: 320px;
             padding: 20px;
             position: relative;
             flex-shrink: 0;
+            transition: transform 0.2s;
         }
+
+        .card:hover { transform: translateY(-5px); background-color: #323942; }
 
         .badge {
             background-color: #363c46;
             color: var(--text-main);
-            padding: 3px 14px;
+            padding: 3px 12px;
             border-top-left-radius: var(--border-radius);
             border-bottom-right-radius: 10px;
             font-size: 11px;
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
         }
 
-        .header {
-            display: flex;
-            align-items: center;
-            margin-top: 12px;
-            margin-bottom: 18px;
-        }
+        .header { display: flex; align-items: center; margin-top: 15px; margin-bottom: 20px; }
 
         .avatar {
-            width: 44px;
-            height: 44px;
-            background-color: #3b424d;
+            width: 48px; height: 48px;
             border-radius: 50%;
             margin-right: 12px;
-            border: 1px solid #474d57;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            object-fit: cover;
+            border: 2px solid #474d57;
         }
 
-        .user-info h3 {
-            margin: 0;
-            font-size: 17px;
-            font-weight: 600;
-        }
+        .user-info h3 { margin: 0; font-size: 16px; color: var(--text-main); }
 
-        .user-stats {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 4px;
-            display: flex;
-            align-items: center;
-        }
+        .user-stats { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
         .min-tag {
-            background-color: rgba(240, 185, 11, 0.15);
+            background-color: rgba(240, 185, 11, 0.1);
             color: var(--gold);
-            padding: 1px 6px;
-            border-radius: 3px;
+            padding: 2px 6px;
+            border-radius: 4px;
             font-size: 10px;
-            margin-left: 8px;
+            margin-left: 5px;
             font-weight: bold;
         }
 
-        .pnl-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 18px;
-        }
+        .pnl-section { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
+        .pnl-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .pnl-value { font-size: 20px; font-weight: bold; color: var(--green); }
+        .pnl-value span { font-size: 12px; font-weight: normal; margin-left: 2px; }
 
-        .pnl-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .pnl-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--green);
-        }
-
-        .pnl-value span {
-            font-size: 13px;
-            font-weight: 400;
-            margin-left: 2px;
-        }
-
-        /* Decorative mini-charts */
-        .chart {
-            width: 80px;
-            height: 30px;
-            background: linear-gradient(90deg, transparent, rgba(14, 203, 129, 0.1));
-            border-bottom: 2px solid var(--green);
-        }
+        .mini-chart { width: 70px; height: 25px; border-bottom: 2px solid var(--green); opacity: 0.5; }
 
         .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            display: grid; grid-template-columns: 1fr 1fr 1fr;
             border-top: 1px solid #3b424d;
-            padding-top: 12px;
+            padding-top: 15px;
         }
 
-        .stat-item label {
-            display: block;
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 3px;
-        }
-
-        .stat-item span {
-            font-size: 13px;
-            font-weight: 500;
-        }
-
+        .stat-item label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .stat-item span { font-size: 13px; font-weight: 500; }
         .positive { color: var(--green); }
     </style>
 </head>
 <body>
 
-    <h2 style="margin-bottom: 10px;">Copy Trading For You</h2>
+    <h2>Copy Trading For You</h2>
 
-    <div class="scroll-wrapper">
-        
-        <div class="card">
-            <div class="badge">Spot</div>
-            <div class="header">
-                <div class="avatar">👤</div>
-                <div class="user-info">
-                    <h3>TikDarkCoder</h3>
-                    <div class="user-stats">👥 16 / 300 <span class="min-tag">Minimum 10USDT</span></div>
-                </div>
-            </div>
-            <div class="pnl-section">
-                <div>
-                    <div class="pnl-label">7D PNL (USDT)</div>
-                    <div class="pnl-value">+26,858.56 <span>USDT</span></div>
-                </div>
-                <div class="chart"></div>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-item"><label>ROI</label><span class="positive">+2.68%</span></div>
-                <div class="stat-item"><label>AUM</label><span>$1,030,119.67</span></div>
-                <div class="stat-item"><label>Win Rate</label><span>100.00%</span></div>
-            </div>
+    <div class="scroll-container" id="trader-list">
         </div>
 
-        <div class="card">
-            <div class="badge">Spot</div>
-            <div class="header">
-                <div class="avatar">👤</div>
-                <div class="user-info">
-                    <h3>TTMTT</h3>
-                    <div class="user-stats">👥 299 / 300 <span class="min-tag">Minimum 10USDT</span></div>
-                </div>
-            </div>
-            <div class="pnl-section">
-                <div>
-                    <div class="pnl-label">7D PNL (USDT)</div>
-                    <div class="pnl-value">+327.81 <span>USDT</span></div>
-                </div>
-                <div class="chart"></div>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-item"><label>ROI</label><span class="positive">+42.51%</span></div>
-                <div class="stat-item"><label>AUM</label><span>$120,284.44</span></div>
-                <div class="stat-item"><label>Win Rate</label><span>34.13%</span></div>
-            </div>
-        </div>
+    <script>
+        const traders = [
+            { name: "TikDarkCoder", img: "https://i.pravatar.cc/150?u=1", pnl: "26,858.56", roi: "2.68", aum: "1,030,119.67", win: "100.00", subs: "16" },
+            { name: "TTMTT", img: "https://i.pravatar.cc/150?u=2", pnl: "327.81", roi: "42.51", aum: "120,284.44", win: "34.13", subs: "299" },
+            { name: "AbdullahBit", img: "https://i.pravatar.cc/150?u=3", pnl: "214.30", roi: "0.79", aum: "17,748.61", win: "76.47", subs: "2" },
+            { name: "Crypto_Libra", img: "https://i.pravatar.cc/150?u=4", pnl: "181.38", roi: "1.66", aum: "11,062.76", win: "74.19", subs: "0" },
+            { name: "Alex_Trades", img: "https://i.pravatar.cc/150?u=5", pnl: "12,450.20", roi: "15.40", aum: "450,000.00", win: "88.20", subs: "145" },
+            { name: "SarahCrypto", img: "https://i.pravatar.cc/150?u=6", pnl: "5,120.90", roi: "8.90", aum: "89,300.12", win: "92.00", subs: "300" },
+            { name: "BullRun_King", img: "https://i.pravatar.cc/150?u=7", pnl: "45,000.00", roi: "120.50", aum: "2,100,000.00", win: "65.40", subs: "280" },
+            { name: "MoonWalker", img: "https://i.pravatar.cc/150?u=8", pnl: "1,200.45", roi: "4.20", aum: "35,600.00", win: "81.00", subs: "45" },
+            { name: "ZenTrader", img: "https://i.pravatar.cc/150?u=9", pnl: "8,940.11", roi: "12.11", aum: "210,450.00", win: "95.50", subs: "12" },
+            { name: "Alpha_Signals", img: "https://i.pravatar.cc/150?u=10", pnl: "3,450.00", roi: "22.30", aum: "95,000.00", win: "70.00", subs: "190" },
+            { name: "MasterBit", img: "https://i.pravatar.cc/150?u=11", pnl: "19,200.75", roi: "5.45", aum: "670,000.00", win: "100.00", subs: "88" },
+            { name: "Elena_FX", img: "https://i.pravatar.cc/150?u=12", pnl: "6,700.30", roi: "31.20", aum: "140,000.00", win: "55.60", subs: "210" },
+            { name: "MacroWhale", img: "https://i.pravatar.cc/150?u=13", pnl: "105,400.00", roi: "1.20", aum: "15,000,000.00", win: "98.00", subs: "11" },
+            { name: "Scalp_God", img: "https://i.pravatar.cc/150?u=14", pnl: "980.50", roi: "65.00", aum: "12,000.00", win: "42.00", subs: "299" },
+            { name: "FuturePro", img: "https://i.pravatar.cc/150?u=15", pnl: "4,120.00", roi: "14.25", aum: "55,800.00", win: "89.00", subs: "156" }
+        ];
 
-        <div class="card">
-            <div class="badge">Spot</div>
-            <div class="header">
-                <div class="avatar">👤</div>
-                <div class="user-info">
-                    <h3>AbdullahBit</h3>
-                    <div class="user-stats">👥 2 / 300 <span class="min-tag">Minimum 10USDT</span></div>
-                </div>
-            </div>
-            <div class="pnl-section">
-                <div>
-                    <div class="pnl-label">7D PNL (USDT)</div>
-                    <div class="pnl-value">+214.30 <span>USDT</span></div>
-                </div>
-                <div class="chart"></div>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-item"><label>ROI</label><span class="positive">+0.79%</span></div>
-                <div class="stat-item"><label>AUM</label><span>$17,748.61</span></div>
-                <div class="stat-item"><label>Win Rate</label><span>76.47%</span></div>
-            </div>
-        </div>
+        const container = document.getElementById('trader-list');
 
-        <div class="card">
-            <div class="badge">Spot</div>
-            <div class="header">
-                <div class="avatar">👤</div>
-                <div class="user-info">
-                    <h3>Crypto_Libra</h3>
-                    <div class="user-stats">👥 0 / 300 <span class="min-tag">Minimum 10USDT</span></div>
+        traders.forEach(t => {
+            const card = `
+                <div class="card">
+                    <div class="badge">Spot</div>
+                    <div class="header">
+                        <img src="${t.img}" class="avatar" alt="${t.name}">
+                        <div class="user-info">
+                            <h3>${t.name}</h3>
+                            <div class="user-stats">👤 ${t.subs} / 300 <span class="min-tag">Minimum 10USDT</span></div>
+                        </div>
+                    </div>
+                    <div class="pnl-section">
+                        <div>
+                            <div class="pnl-label">7D PNL (USDT)</div>
+                            <div class="pnl-value">+${t.pnl} <span>USDT</span></div>
+                        </div>
+                        <div class="mini-chart"></div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item"><label>ROI</label><span class="positive">+${t.roi}%</span></div>
+                        <div class="stat-item"><label>AUM</label><span>$${t.aum}</span></div>
+                        <div class="stat-item"><label>Win Rate</label><span>${t.win}%</span></div>
+                    </div>
                 </div>
-            </div>
-            <div class="pnl-section">
-                <div>
-                    <div class="pnl-label">7D PNL (USDT)</div>
-                    <div class="pnl-value">+181.38 <span>USDT</span></div>
-                </div>
-                <div class="chart"></div>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-item"><label>ROI</label><span class="positive">+1.66%</span></div>
-                <div class="stat-item"><label>AUM</label><span>$11,062.76</span></div>
-                <div class="stat-item"><label>Win Rate</label><span>74.19%</span></div>
-            </div>
-        </div>
-
-    </div>
-
+            `;
+            container.innerHTML += card;
+        });
+    </script>
 </body>
 </html>
