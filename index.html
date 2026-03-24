@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy Trading Dashboard</title>
+    <style>
+        :root {
+            --bg-dark: #1e2329;
+            --card-bg: #2b3139;
+            --text-main: #eaecef;
+            --text-muted: #848e9c;
+            --green: #0ecb81;
+            --red: #f6465d;
+            --border-radius: 12px;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 40px;
+            margin: 0;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            width: 380px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .badge {
+            background-color: #363c46;
+            color: var(--text-main);
+            padding: 4px 12px;
+            border-top-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            font-size: 12px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background-color: #3b424d;
+            border-radius: 50%;
+            margin-right: 12px;
+            border: 1px solid #474d57;
+        }
+
+        .user-info h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .user-stats {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .min-tag {
+            background-color: rgba(240, 185, 11, 0.1);
+            color: #f0b90b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+
+        .pnl-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .pnl-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .pnl-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--green);
+        }
+
+        .pnl-value span {
+            font-size: 14px;
+            font-weight: normal;
+            margin-left: 4px;
+        }
+
+        /* Simple placeholder for the sparkline graph */
+        .chart-preview {
+            width: 100px;
+            height: 40px;
+            border-bottom: 2px solid var(--green);
+            opacity: 0.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            border-top: 1px solid #3b424d;
+            padding-top: 15px;
+        }
+
+        .stat-item label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .stat-item span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .roi-up { color: var(--green); }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="badge">Spot</div>
+        <div class="header">
+            <div class="avatar"></div>
+            <div class="user-info">
+                <h3>TikDarkCoder</h3>
+                <div class="user-stats">
+                    👤 16 / 300 <span class="min-tag">Minimum 10USDT</span>
+                </div>
+            </div>
+        </div>
+        <div class="pnl-section">
+            <div>
+                <div class="pnl-label">7D PNL (USDT)</div>
+                <div class="pnl-value">+26,858.56 <span>USDT</span></div>
+            </div>
+            <div class="chart-preview"></div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <label>ROI</label>
+                <span class="roi-up">+2.68%</span>
+            </div>
+            <div class="stat-item">
+                <label>AUM</label>
+                <span>$1,030,119.67</span>
+            </div>
+            <div class="stat-item">
+                <label>Win Rate</label>
+                <span>100.00%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="badge">Spot</div>
+        <div class="header">
+            <div class="avatar"></div>
+            <div class="user-info">
+                <h3>TTMTT</h3>
+                <div class="user-stats">
+                    👤 299 / 300 <span class="min-tag">Minimum 10USDT</span>
+                </div>
+            </div>
+        </div>
+        <div class="pnl-section">
+            <div>
+                <div class="pnl-label">7D PNL (USDT)</div>
+                <div class="pnl-value">+327.81 <span>USDT</span></div>
+            </div>
+            <div class="chart-preview" style="border-color: var(--green);"></div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <label>ROI</label>
+                <span class="roi-up">+42.51%</span>
+            </div>
+            <div class="stat-item">
+                <label>AUM</label>
+                <span>$120,284.44</span>
+            </div>
+            <div class="stat-item">
+                <label>Win Rate</label>
+                <span>34.13%</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
